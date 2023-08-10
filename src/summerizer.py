@@ -1,7 +1,17 @@
 import pandas as pd
 import os
 from datetime import datetime
+
 directory = os.getcwd()
+
+
+def execute(folder, text, messagebox):
+	month= text.get()
+	try:
+		summarize(month, folder)
+		messagebox.showinfo ( 'summarizer', 'export done succesfully ')
+	except ValueError:
+		messagebox.showerror( 'error', 'Oops something went wrong !!')
 
 def summarize(sheet,folder_path=directory):
     all_data = []
