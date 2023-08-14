@@ -8,6 +8,12 @@ import get_info
 from PIL import Image, ImageTk
 import restore
 
+def check_enable_execute(labelpath, dropdown_var, entry_widget, execute_button):
+    if labelpath.cget("text") and dropdown_var.get() and entry_widget.get():
+        execute_button.config(state="normal")  # Enable the button
+    else:
+        execute_button.config(state="disabled") 
+
 def main():
 #This part is to set the window size and title
 	splash.splash()
@@ -25,13 +31,23 @@ def main():
 	folder_button = tk.Button(frame, text="Select Folder >>", width=35, command=lambda: get_info.get_folder(labelpath, dropdown))
 	folder_button.pack(padx=5, pady=5)
 
-	labelpath = tk.Label(frame,text="timesheets Folder",wraplength=220,justify="left")
+	labelpath = tk.Label(frame,text="Excel files Folder",wraplength=220,justify="left")
 	labelpath.pack(padx=5, pady=5)
+
+	label_spe_tab = tk.Label(frame,text="\n Choose the Excel Tab",wraplength=220,justify="left")
+	label_spe_tab.pack(padx=5, pady=5)
 
 	# Create a dropdown list with state set to "readonly"
 	dropdown_var = tk.StringVar(root)
 	dropdown = ttk.Combobox(frame, textvariable=dropdown_var, state="readonly", width=39,)
 	dropdown.pack(padx=5, pady=5)
+
+	label_specify = tk.Label(frame,text="\n Choose the cells to parse",wraplength=220,justify="left")
+	label_specify.pack(padx=5, pady=5)
+
+	entry_widget = tk.Entry(frame, width=41)  # Create a single-line Entry widget
+	entry_widget.insert(0, "A1 , A2")
+	entry_widget.pack(padx=5, pady=5)
 
 	#dropdown.bind("<<ComboboxSelected>>", lambda event: text= dropdown_var.get())
 
@@ -41,11 +57,19 @@ def main():
 	savepath = tk.Label(frame,text="timesheets Folder  ",wraplength=220, padx=25,justify="left")
 	savepath.pack(padx=5, pady=5)
 
-	restore_button = tk.Button(frame, text="Restore Previous", width=35, command=lambda: restore.restore(labelpath, dropdown, savepath))
+	restore_button = tk.Button(frame, text="Restore Previous", width=35, command=lambda: restore.restore(labelpath, dropdown, savepath, entry_widget, execute_button))
 	restore_button.pack(padx=5, pady=5)
+
+	try:
+		with open("src/data", "r"):
+			pass  # If file exists, keep the Restore button enabled
+	except FileNotFoundError:
+		restore_button.config(state="disabled")
 	
-	execute_button = tk.Button(frame, text="Execute", width=35, command=lambda: get_info.save_folder(savepath))
+	execute_button = tk.Button(frame, text="Execute", width=35, command=lambda: summarize(dropdown.current, labelpath.cget("text")))
 	execute_button.pack(padx=5, pady=5)
+	check_enable_execute(labelpath, dropdown_var, entry_widget, execute_button)
+
 
 	exit_button = tk.Button(frame, text="Exit", width=35, command=lambda: exit())
 	exit_button.pack(padx=5, pady=5)

@@ -2,8 +2,6 @@ import pandas as pd
 import os
 from datetime import datetime
 
-directory = os.getcwd()
-
 
 def execute(folder, text, messagebox):
 	month= text.get()
@@ -13,7 +11,7 @@ def execute(folder, text, messagebox):
 	except ValueError:
 		messagebox.showerror( 'error', 'Oops something went wrong !!')
 
-def summarize(sheet,folder_path=directory):
+def summarize(sheet, folder_path):
     all_data = []
     # loop through each excel file in folder
     for file_name in os.listdir(folder_path):
