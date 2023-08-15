@@ -1,18 +1,33 @@
 import tkinter as tk
 from tkinter import ttk
-from tkinter import filedialog
-from summerizer import summarize
+from summerizer import execute
 from tkinter import messagebox
 import splash
 import get_info
 from PIL import Image, ImageTk
 import restore
 
+
 def check_enable_execute(labelpath, dropdown_var, entry_widget, execute_button):
-    if labelpath.cget("text") and dropdown_var.get() and entry_widget.get():
-        execute_button.config(state="normal")  # Enable the button
-    else:
-        execute_button.config(state="disabled") 
+	if labelpath.cget("text") and dropdown_var.get() and entry_widget.get():
+		execute_button.config(state="normal")  # Enable the button
+	else:
+		execute_button.config(state="disabled")
+
+def go(labelpath, dropdown, savepath, entry_widget, execute_button):
+	execute(labelpath, entry_widget.get(), dropdown, savepath)
+	restore.save(labelpath, dropdown, savepath, entry_widget)
+	check_enable_execute(labelpath, dropdown, entry_widget, execute_button)
+
+def bring(labelpath, dropdown, savepath, entry_widget, execute_button):
+	restore.restore(labelpath, dropdown, savepath, entry_widget)
+	check_enable_execute(labelpath, dropdown, entry_widget, execute_button)
+
+def save_label(savepath, labelpath, dropdown, entry_widget, execute_button):
+	get_info.save_folder(savepath)
+	check_enable_execute(labelpath, dropdown, entry_widget, execute_button)
+
+
 
 def main():
 #This part is to set the window size and title
@@ -51,13 +66,13 @@ def main():
 
 	#dropdown.bind("<<ComboboxSelected>>", lambda event: text= dropdown_var.get())
 
-	save_button = tk.Button(frame, text="Save output as >>", width=35, command=lambda: get_info.save_folder(savepath))
+	save_button = tk.Button(frame, text="Save output as >>", width=35, command=lambda: save_label(savepath, labelpath, dropdown, entry_widget, execute_button))
 	save_button.pack(padx=5, pady=5)
 	
 	savepath = tk.Label(frame,text="timesheets Folder  ",wraplength=220, padx=25,justify="left")
 	savepath.pack(padx=5, pady=5)
 
-	restore_button = tk.Button(frame, text="Restore Previous", width=35, command=lambda: restore.restore(labelpath, dropdown, savepath, entry_widget, execute_button))
+	restore_button = tk.Button(frame, text="Restore Previous", width=35, command=lambda: bring(labelpath, dropdown, savepath, entry_widget, execute_button))
 	restore_button.pack(padx=5, pady=5)
 
 	try:
@@ -66,7 +81,7 @@ def main():
 	except FileNotFoundError:
 		restore_button.config(state="disabled")
 	
-	execute_button = tk.Button(frame, text="Execute", width=35, command=lambda: summarize(dropdown.current, labelpath.cget("text")))
+	execute_button = tk.Button(frame, text="Execute", width=35, command=lambda: go(labelpath, dropdown, savepath, entry_widget, execute_button))
 	execute_button.pack(padx=5, pady=5)
 	check_enable_execute(labelpath, dropdown_var, entry_widget, execute_button)
 
@@ -80,7 +95,6 @@ def main():
 	image_label = tk.Label(frame, image=tk_image, height=250, width=250)
 	image_label.pack(padx=5, pady=5)
 
-	#frame.pack_propagate(False)
 	root.mainloop()
 
 if __name__ == "__main__":

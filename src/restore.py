@@ -1,6 +1,5 @@
 from tkinter import messagebox
 import get_info	
-from main import check_enable_execute
 
 def restore(labelpath, dropdown, savepath, entry_widget, execute_button):
 
@@ -19,6 +18,12 @@ def restore(labelpath, dropdown, savepath, entry_widget, execute_button):
 				savepath.config(text=lines[1].strip())
 				entry_widget.delete(0, 'end')
 				entry_widget.insert(0, lines[2].strip())
-				check_enable_execute(labelpath, dropdown, entry_widget, execute_button)
 	except FileNotFoundError:
 		messagebox.showerror("Error", "Restore data not found.")
+
+def save(labelpath, dropdown, savepath, entry_widget):
+	# Save labelpath, dropdown values, and savepath to file
+	with open("src/data", "w") as file:
+		file.write(labelpath.cget("text") + "\n")
+		file.write(savepath.cget("text") + "\n")
+		file.write(entry_widget.get() + "\n")
