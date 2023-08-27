@@ -1,7 +1,7 @@
 from tkinter import messagebox
 import get_info	
 
-def restore(labelpath, dropdown, savepath, entry_widget, execute_button):
+def restore(labelpath, dropdown, savepath, entry_widget):
 
 	try:
 			with open("src/data", "r") as file:

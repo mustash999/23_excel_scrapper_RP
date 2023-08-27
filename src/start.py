@@ -1,6 +1,11 @@
+#import for the splash screen
 import time
 import pygame
 
+
+ 
+
+# -------------------------------------------------Splash Screen function -------------------------------------------------
 def splash():
 	pygame.init()
 
