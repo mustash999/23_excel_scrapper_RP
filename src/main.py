@@ -31,7 +31,6 @@ def com_gt_folder(labelpath, dropdown, entry_widget, execute_button):
 	get_info.get_folder(labelpath, dropdown)
 	check_enable_execute(labelpath, dropdown, entry_widget, execute_button)
 
-
 def main():
 #This part is to set the window size and title
 	start.splash()
@@ -66,7 +65,7 @@ def main():
 
 	#----------------------------------------------which cells ( 1-a label  2. an entry box ) ----------------------------------------
 
-	label_specify = tk.Label(frame,text="\n Choose the cells to parse",wraplength=220,justify="left")
+	label_specify = tk.Label(frame,text="\n Choose the cells to parse \n Format like this  (A1 B1 C1, A2 B2 C2 ... etc)",wraplength=220,justify="left")
 	label_specify.pack(padx=5, pady=5)
 
 	entry_widget = tk.Entry(frame, width=41)  # Create a single-line Entry widget
