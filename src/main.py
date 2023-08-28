@@ -31,6 +31,12 @@ def com_gt_folder(labelpath, dropdown, entry_widget, execute_button):
 	get_info.get_folder(labelpath, dropdown)
 	check_enable_execute(labelpath, dropdown, entry_widget, execute_button)
 
+def com_exit(root):
+	root.destroy()
+	exit()
+
+
+
 def main():
 #This part is to set the window size and title
 	start.splash()
@@ -102,7 +108,7 @@ def main():
 	# ----------------------------------------------Exit button--------------- -------------------------------------------------------
 
 
-	exit_button = tk.Button(frame, text="Exit", width=35, command=lambda: exit())
+	exit_button = tk.Button(frame, text="Exit", width=35, command=lambda: com_exit(root))
 	exit_button.pack(padx=5, pady=5)
 
 	# ----------------------------------------------Check if all fields are filled ---------------------------------------------------
