@@ -68,7 +68,9 @@ def main():
 	label_specify = tk.Label(frame,text="\n Choose the cells to parse \n Format like this  (A1 B1 C1, A2 B2 C2 ... etc)",wraplength=220,justify="left")
 	label_specify.pack(padx=5, pady=5)
 
-	entry_widget = tk.Entry(frame, width=41)  # Create a single-line Entry widget
+	ent_var = tk.StringVar()
+	ent_var.trace_add("write", lambda *args: check_enable_execute(labelpath, dropdown, entry_widget, execute_button))
+	entry_widget = tk.Entry(frame, width=41, textvariable= ent_var)  # Create a single-line Entry widget
 	entry_widget.pack(padx=5, pady=5)
 
 	#----------------------------------------------Save output as --------------------------------------------------------------------
