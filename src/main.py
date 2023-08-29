@@ -94,7 +94,7 @@ def main():
 	restore_button.pack(padx=5, pady=5)
 
 	try:
-		with open("src/data", "r"):
+		with open("resources/data", "r"):
 			pass  # If file exists, keep the Restore button enabled
 	except FileNotFoundError:
 		restore_button.config(state="disabled")
